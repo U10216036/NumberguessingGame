@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void generateRandomAns(){
-
+        textAns.setText("");
         ans[0] = (int)(Math.random()*(a.length)+1);
         ans[1] =(int)(Math.random()*(a.length)+1);
         while (ans[1] == ans[0]){
