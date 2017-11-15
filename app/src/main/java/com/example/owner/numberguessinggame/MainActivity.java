@@ -33,11 +33,12 @@ public class MainActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //do something
+                //define how many numbers
                 a = new int[5];
                 for(int i =0;i < a.length;i++){
                     a[i] = i+1;
                 }
+                //generate answer by random
                 generateRandomAns();
 
                 for(int i =0;i < a.length;i++){
