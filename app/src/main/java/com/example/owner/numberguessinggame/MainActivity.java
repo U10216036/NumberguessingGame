@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
 
             return StartGuessing(a,length-2);
         }else {
-            return "我猜是:"+String.valueOf(guess[0])+" "+String.valueOf(guess[1])+"";
+            return "我猜是:"+String.valueOf(guess[0])+" "+String.valueOf(guess[1])+"答對了2C!!";
         }
 
     }
