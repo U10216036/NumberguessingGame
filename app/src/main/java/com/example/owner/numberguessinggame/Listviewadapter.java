@@ -10,21 +10,21 @@ import android.widget.TextView;
 import java.util.ArrayList;
 public class Listviewadapter extends BaseAdapter {
     private Context context;
-    private ArrayList<Answer> items;
+    private ArrayList<Answer> ans;
 
     public Listviewadapter(Context context, ArrayList<Answer> items) {
         this.context = context;
-        this.items = items;
+        this.ans = items;
     }
 
     @Override
     public int getCount() {
-        return items.size();
+        return ans.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return items.get(position);
+        return ans.get(position);
     }
 
     @Override
@@ -58,5 +58,9 @@ public class Listviewadapter extends BaseAdapter {
         public ViewHolder(View view) {
             itemName = (TextView)view.findViewById(R.id.textView1);
         }
+    }
+
+    public void clearAnswer() {
+        ans.clear();
     }
 }
