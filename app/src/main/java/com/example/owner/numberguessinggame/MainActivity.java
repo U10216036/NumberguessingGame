@@ -15,6 +15,7 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity {
     List<Integer> a = new ArrayList<>();
     List<Integer> notguess = new ArrayList<>();
+    List<Integer> tmp = new ArrayList<>();
     int ans[] = new int[2];
     int guess[] = new int[2];
     ListView itemsListView;
@@ -62,9 +63,17 @@ public class MainActivity extends AppCompatActivity {
         ans[0] = ran.nextInt(a.size())+1;
         ans[1] =ran.nextInt(a.size())+1;
         if (ans[1] == ans[0]){
-            //a.remove(ans[1]);
-            ans[1] = ran.nextInt(a.size())+1;
-            //a.add(ans[1]);
+            Iterator<Integer> Iterator = a.iterator();
+            while(Iterator.hasNext()){
+                int e = Iterator.next();
+                if(e == ans[0]){
+                    Iterator.remove();
+                }
+            }
+            if(a.size()!=0) {
+                ans[1] = ran.nextInt(a.size()) + 1;
+                a.add(ans[0]);
+            }
         }
         if(ans[0]>ans[1]){
             int temp = ans[0];
@@ -82,8 +91,18 @@ public class MainActivity extends AppCompatActivity {
         guess[1] = notguess.get(ran.nextInt(length));
 
         if (guess[1] == guess[0]) {
+            Iterator<Integer> Iterator = notguess.iterator();
+            while(Iterator.hasNext()){
+                int e = Iterator.next();
+                if(e == guess[0]){
+                    Iterator.remove();
+                }
+            }
+            if(notguess.size()!=0){
+                guess[1] =ran.nextInt(notguess.size())+1;
+                notguess.add(guess[0]);
+            }
 
-            guess[1] = notguess.get(ran.nextInt(notguess.size()));
         }
         if(guess[0]>guess[1]){
             int temp = guess[0];
@@ -103,6 +122,7 @@ public class MainActivity extends AppCompatActivity {
         }
         else if ((guess[0]==ans[0]&&guess[1]!=ans[1])||(guess[0]!=ans[0]&&guess[1]==ans[1])||(guess[1]!=ans[0]&&guess[0]==ans[1])||(guess[1]==ans[0]&&guess[0]!=ans[1])){
             list.add(new Answer("我猜是"+String.valueOf(guess[0])+" "+String.valueOf(guess[1])+"對一個1C >_<"));
+
             return StartGuessing(notguess,notguess.size());
         }
         else {
