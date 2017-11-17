@@ -15,7 +15,7 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity {
     List<Integer> a = new ArrayList<>();
     List<Integer> notguess = new ArrayList<>();
-    List<Integer> maybeAns = new ArrayList<>();
+    List<Integer> cOrder = new ArrayList<>();
     List<Integer> removedAns = new ArrayList<>();
     int ans[] = new int[2];
     int guess[] = new int[2];
@@ -113,14 +113,16 @@ public class MainActivity extends AppCompatActivity {
 
             }
         }
-        else if(count1C>=2 && count2C ==1 ){
+        else if(count1C>=2 && count2C ==1 & cOrder.get(1)!= 0){
             guess[guessIndex] = removedAns.get(0);
             guess[1 - guessIndex] = removedAns.get(1);
             removedAns.clear();
         }
         else if(count1C ==1 && count2C ==1){
+            int tmp = guess[guessIndex];
             guess[guessIndex] = removedAns.get(0);
             removedAns.clear();
+            removedAns.add(tmp);
             guess[1 - guessIndex] = notguess.get(ran.nextInt(notguess.size()));
             if (guess[1 - guessIndex] == guess[guessIndex]) {
                 Iterator<Integer> Iterator = notguess.iterator();
@@ -160,6 +162,7 @@ public class MainActivity extends AppCompatActivity {
             guess[1] = temp;
         }*/
         if ((guess[0]!=ans[0]&&guess[1]!=ans[1])&&(guess[1]!=ans[0]&&guess[0]!=ans[1])){
+            cOrder.add(0);
             count2C++;
             list.add(new Answer("我猜是"+String.valueOf(guess[0])+" "+String.valueOf(guess[1])+"全錯0C QAQ"));
             adapter.notifyDataSetChanged();
@@ -174,6 +177,7 @@ public class MainActivity extends AppCompatActivity {
             return StartGuessing(notguess);
         }
         else if ((guess[0]==ans[0]&&guess[1]!=ans[1])||(guess[0]!=ans[0]&&guess[1]==ans[1])||(guess[1]!=ans[0]&&guess[0]==ans[1])||(guess[1]==ans[0]&&guess[0]!=ans[1])){
+            cOrder.add(1);
             count1C++;
             list.add(new Answer("我猜是"+String.valueOf(guess[0])+" "+String.valueOf(guess[1])+"對一個1C >_<"));
             adapter.notifyDataSetChanged();
@@ -201,6 +205,7 @@ public class MainActivity extends AppCompatActivity {
             return StartGuessing(notguess);
         }
         else {
+            cOrder.clear();
             return "我猜是"+String.valueOf(guess[0])+" "+String.valueOf(guess[1])+"答對了2C!! ^ ^ ";
         }
 
