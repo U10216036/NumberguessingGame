@@ -2,6 +2,7 @@ package com.example.owner.numberguessinggame;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -25,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     Listviewadapter adapter;
     int guessIndex;
     int count1C =0;
-    int count2C =0;
+    boolean count2C =false;
     Random ran;
 
     @Override
@@ -48,9 +49,11 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 adapter.clearAnswer();
                 count1C = 0;
-                count2C = 0;
+                count2C = false;
+                removedAns.clear();
+                notguess.clear();
                 //a = new int[5];
-                for(int i =0;i < 5;i++){
+                for(int i =0;i <7;i++){
                     a.add(i+1);
                 }
                 generateRandomAns();
@@ -94,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
     String StartGuessing(List a){
 
         notguess = a;
-        if(count1C == 0) {
+        if(count1C == 0 || count2C ==true) {
             guess[0] = notguess.get(ran.nextInt(notguess.size()));
             guess[1] = notguess.get(ran.nextInt(notguess.size()));
 
@@ -112,60 +115,40 @@ public class MainActivity extends AppCompatActivity {
                 }
 
             }
-        }
-        else if(count1C>=2 && count2C ==1 & cOrder.get(1)!= 0){
-            guess[guessIndex] = removedAns.get(0);
-            guess[1 - guessIndex] = removedAns.get(1);
-            removedAns.clear();
-        }
-        else if(count1C ==1 && count2C ==1){
-            int tmp = guess[guessIndex];
-            guess[guessIndex] = removedAns.get(0);
-            removedAns.clear();
-            removedAns.add(tmp);
-            guess[1 - guessIndex] = notguess.get(ran.nextInt(notguess.size()));
-            if (guess[1 - guessIndex] == guess[guessIndex]) {
-                Iterator<Integer> Iterator = notguess.iterator();
-                while (Iterator.hasNext()) {
-                    int e = Iterator.next();
-                    if (e == guess[guessIndex]) {
-                        Iterator.remove();
-                    }
-                }
-                if (notguess.size() != 0) {
-                    guess[1 - guessIndex] = notguess.get(ran.nextInt(notguess.size()));
-                    notguess.add(guess[guessIndex]);
-                }
-
-            }
+            count2C =false;
         }
         else {
-            guess[1 - guessIndex] = notguess.get(ran.nextInt(notguess.size()));
-            if (guess[1 - guessIndex] == guess[guessIndex]) {
-                Iterator<Integer> Iterator = notguess.iterator();
-                while (Iterator.hasNext()) {
-                    int e = Iterator.next();
-                    if (e == guess[guessIndex]) {
-                        Iterator.remove();
-                    }
+            if(removedAns.size() ==2 ){
+                guess[0] = removedAns.get(0);
+                guess[1] = removedAns.get(1);
+                removedAns.clear();
+            }
+            else{
+                Log.i("StartGuessing: ",String.valueOf(notguess.size()));
+                guess[1 - guessIndex] = notguess.get(ran.nextInt(notguess.size()));
+                if (guess[1 - guessIndex] == guess[guessIndex]) {
+                    Iterator<Integer> Iterator = notguess.iterator();
+                    while (Iterator.hasNext()) {
+                        int e = Iterator.next();
+                        if (e == guess[guessIndex]) {
+                            Iterator.remove();
+                        }
                 }
                 if (notguess.size() != 0) {
                     guess[1 - guessIndex] = notguess.get(ran.nextInt(notguess.size()));
                     notguess.add(guess[guessIndex]);
                 }
 
+                }
             }
         }
-        /*if(guess[0]>guess[1]){
-            int temp = guess[0];
-            guess[0] = guess[1];
-            guess[1] = temp;
-        }*/
+
+
+
         if ((guess[0]!=ans[0]&&guess[1]!=ans[1])&&(guess[1]!=ans[0]&&guess[0]!=ans[1])){
             cOrder.add(0);
-            count2C++;
+            count2C = true;
             list.add(new Answer("我猜是"+String.valueOf(guess[0])+" "+String.valueOf(guess[1])+"全錯0C QAQ"));
-            adapter.notifyDataSetChanged();
             Iterator<Integer> Iterator = notguess.iterator();
             while(Iterator.hasNext()){
                 int e = Iterator.next();
@@ -173,14 +156,12 @@ public class MainActivity extends AppCompatActivity {
                     Iterator.remove();
                 }
             }
-
             return StartGuessing(notguess);
         }
         else if ((guess[0]==ans[0]&&guess[1]!=ans[1])||(guess[0]!=ans[0]&&guess[1]==ans[1])||(guess[1]!=ans[0]&&guess[0]==ans[1])||(guess[1]==ans[0]&&guess[0]!=ans[1])){
             cOrder.add(1);
             count1C++;
             list.add(new Answer("我猜是"+String.valueOf(guess[0])+" "+String.valueOf(guess[1])+"對一個1C >_<"));
-            adapter.notifyDataSetChanged();
             if(count1C ==1){
                 Iterator<Integer> Iterator = notguess.iterator();
                 while(Iterator.hasNext()){
