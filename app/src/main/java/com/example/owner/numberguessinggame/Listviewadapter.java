@@ -8,6 +8,8 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+
+//listview adapter
 public class Listviewadapter extends BaseAdapter {
     private Context context;
     private ArrayList<Answer> ans;
