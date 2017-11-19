@@ -40,7 +40,28 @@
 
                     <TextView
                         android:id="@+id/textAns"
-                        android:layout_width="match_parent"
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text=" "
+                        android:textSize="24sp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/avg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="平均猜測："
+                        android:textSize="24sp" />
+
+                    <TextView
+                        android:id="@+id/textavg"
+                        android:layout_width="58dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text=" "
@@ -86,7 +107,7 @@
                         android:layout_alignParentRight="true"
                         android:gravity="left"
                         android:padding="6dp"
-                        android:text="3"
+                        android:text="5"
                         android:textColor="#16BC5C"
                         android:textSize="24sp" />
                 </LinearLayout>

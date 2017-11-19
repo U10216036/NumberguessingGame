@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     int ans[] = new int[2];
     int guess[] = new int[2];
     ListView itemsListView;
-    TextView textAns,value;
+    TextView textAns,value,textAvg;
     Button btn;
     SeekBar seekBar;
     ArrayList<Answer> list;
@@ -29,6 +29,9 @@ public class MainActivity extends AppCompatActivity {
     int guessIndex;
     int count1C =0; //count 1C
     boolean count2C =false; //2C or not when start guessing
+    int guessTime ;
+    int clickTime ;
+    int tmpvalue;
     Random ran;
 
 
@@ -38,9 +41,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         btn = (Button)findViewById(R.id.btn);
         textAns = (TextView)findViewById(R.id.textAns);
+        textAvg = (TextView)findViewById(R.id.textavg);
         itemsListView  = (ListView)findViewById(R.id.listView);
         seekBar = (SeekBar) findViewById(R.id.seek);
-        seekBar.setProgress(3);
+        seekBar.setProgress(5);
         value = (TextView)findViewById(R.id.value);
         ran = new Random();
         list = new ArrayList<>();
@@ -53,8 +57,10 @@ public class MainActivity extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 value.setText( String.valueOf(i));
                 if(i ==0){
-                    value.setText(String.valueOf(3));
+                    value.setText(String.valueOf(5));
                 }
+                clickTime =0;
+                guessTime =0;
             }
 
             @Override
@@ -72,6 +78,9 @@ public class MainActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //count click time
+                clickTime++;
+                tmpvalue = Integer.valueOf((String) value.getText());
                 adapter.clearAnswer();
                 count1C = 0;
                 count2C = false;
@@ -91,6 +100,9 @@ public class MainActivity extends AppCompatActivity {
                 //show result on listview
                 adapter.notifyDataSetChanged();
                 notguess.clear();
+                textAvg.setText(String.valueOf(guessTime/clickTime));
+
+
 
             }
         });
@@ -127,6 +139,7 @@ public class MainActivity extends AppCompatActivity {
     }
     //Start guessing number
     String StartGuessing(List a){
+        guessTime++;
         Log.i("notguess:",String.valueOf(notguess));
         notguess = a;
         //if no 1C occurs just guess two random numbers from notguess
